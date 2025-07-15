@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using CIS174_Ticketing.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CIS174_Ticketing.Controllers
 {
@@ -15,18 +16,20 @@ namespace CIS174_Ticketing.Controllers
             var model = new TicketViewModel
             {
                 Filters = new Filters(id),
-                Categories = context.Sprints.ToList(),
+                Sprints = context.Sprints.ToList(),
                 Statuses = context.Statuses.ToList(),
                 DueFilters = Filters.StatusFilterValues
             };
 
             //get open tasks from database based on current filters
 
-            IQueryable<Ticket> query = context.Tickets;
+            IQueryable<Ticket> query = context.Tickets
+                .Include(t => t.Sprint).Include(t => t.Status);
 
-            if (model.Filters.HasCategory)
+
+            if (model.Filters.HasSprint)
             {
-                query = query.Where(t => t.StatusId == model.Filters.CategoryId);
+                query = query.Where(t => t.StatusId == model.Filters.SprintId);
             }
             if (model.Filters.HasStatus)
             {
@@ -52,7 +55,7 @@ namespace CIS174_Ticketing.Controllers
         {
             var model = new TicketViewModel
             {
-                Categories = context.Sprints.ToList(),
+                Sprints = context.Sprints.ToList(),
                 Statuses = context.Statuses.ToList(),
                 CurrentTask = new Ticket { StatusId = "todo" }  // set default value for drop-down
             };
@@ -70,7 +73,7 @@ namespace CIS174_Ticketing.Controllers
             }
             else
             {
-                model.Categories = context.Sprints.ToList();
+                model.Sprints = context.Sprints.ToList();
                 model.Statuses = context.Statuses.ToList();
                 return View(model);
             }
