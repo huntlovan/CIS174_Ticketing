@@ -22,6 +22,7 @@ namespace CIS174_Ticketing.Models
             );
             modelBuilder.Entity<Status>().HasData(
                 new Status { StatusId = "todo", Name = "To Do" },
+                new Status {StatusId = "inprogress", Name = "In Progress"},
                 new Status { StatusId = "done", Name = "Done" }
             );
         }
