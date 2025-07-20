@@ -89,7 +89,7 @@ namespace CIS174_Ticketing.Controllers
         [HttpPost]
         public IActionResult MarkComplete([FromRoute] string id, Ticket selected)
         {
-            selected = context.Tickets.Find(selected.Id)!;  // use null-forgiving operator to suppress null warning
+            selected = context.Tickets.Find(selected.TicketId)!;  // use null-forgiving operator to suppress null warning
             if (selected != null)
             {
                 selected.StatusId = "closed";
