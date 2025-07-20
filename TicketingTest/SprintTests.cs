@@ -1,4 +1,4 @@
-using CIS174_Ticketing.Models;
+﻿using CIS174_Ticketing.Models;
 namespace TicketingTest
 {
     public class SprintTests
