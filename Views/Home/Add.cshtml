@@ -1,5 +1,5 @@
 ﻿@model TicketViewModel
-
+@await Component.InvokeAsync("StatusButton", new { currentStatus = Model.CurrentTask.StatusId })
 <h2>New Task</h2>
 
 <div asp-validation-summary="All" class="text-danger"></div>
@@ -12,9 +12,9 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="CurrentTask.SprintId" class="form-label">Category:</label>
-        <select asp-for="CurrentTask.SprintId" class="form-select"
-                asp-items="@(new SelectList(Model.Categories, "CategoryId", "Name"))">
+        <label asp-for="CurrentTask.TicketId" class="form-label">Sprint:</label>
+        <select asp-for="CurrentTask.TicketId" class="form-select"
+                asp-items="@(new SelectList(Model.Sprints, "SprintId", "Name"))">
             <option value=""></option>
         </select>
     </div>
@@ -32,5 +32,6 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Add</button>
+    <submit-button text="Save Ticket" css-class="btn btn-success"></submit-button>
     <a asp-action="Index" class="btn btn-primary">Cancel</a>
 </form>

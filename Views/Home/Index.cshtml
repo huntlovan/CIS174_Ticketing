@@ -1,13 +1,14 @@
 ﻿@model TicketViewModel
-
+@await Component.InvokeAsync("StatusButton", new { currentStatus = Model.CurrentTask.StatusId })
+<h2>New Task</h2>
 <div class="row">
     <div class="col-md-2">
         <form asp-action="Filter" method="post">
             <div class="mb-3">
-                <label class="form-label">Category:</label>
+                <label class="form-label">Sprint:</label>
                 <select name="filter" class="form-select"
-                        asp-items="@(new SelectList(Model.Categories,
-                                            "CategoryId", "Name", Model.Filters.CategoryId))">
+                        asp-items="@(new SelectList(Model.Sprints,
+                                            "SprintId", "Name", Model.Filters.SprintId))">
                     <option value="all">All</option>
                 </select>
             </div>
@@ -40,7 +41,7 @@
                 <thead>
                     <tr>
                         <th>Description</th>
-                        <th>Category</th>
+                        <th>Sprint</th>
                         <th>Due Date</th>
                         <th>Status</th>
                         <th class="w-25"></th>
@@ -52,14 +53,14 @@
                         string overdue = task.Overdue ? "bg-warning" : "";
                         <tr>
                             <td>@task.Description</td>
-                            <td>@task.SprintId</td>
+                            <td>@task.TicketId</td>
                             <td class="@overdue">@task.DueDate?.ToShortDateString()</td>
                             <td class="@overdue">@task.Status.Name</td>
                             <td>
                                 @if (@task.StatusId == "open")
                                 {
                                     <button type="submit" class="btn btn-primary btn-sm"
-                                            name="@nameof(Ticket.Id)" value="@task.Id">
+                                            name="@nameof(Ticket.TicketId)" value="@task.TicketId">
                                         Mark Completed
                                     </button>
                                 }
