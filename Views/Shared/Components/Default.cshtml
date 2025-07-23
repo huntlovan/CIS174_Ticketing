@@ -1,0 +1,14 @@
+@model List<string>
+@{
+    var current = ViewData["CurrentStatus"] as string;
+}
+
+<div class="btn-group" role="group">
+    @foreach (var status in Model)
+    {
+        var label = Filters.StatusFilterValues.ContainsKey(status) ? Filters.StatusFilterValues[status] : status;
+        var btnClass = status == current ? "btn btn-info" : "btn btn-outline-secondary";
+
+        <button type="button" class="@btnClass">@label</button>
+    }
+</div>
